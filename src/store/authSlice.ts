@@ -9,20 +9,22 @@ interface LoginData{
 }
 
 interface User{
-    username : string,
-    email : string,
-    password : string
-    token : string
+    username : string | null,
+    email : string | null,
+    password : string | null,
+    token : string | null
 }
 
 interface AuthState{
     user : User,
     status : Status
+    token : string | null
 }
 
 const initialState : AuthState = {
     user : {} as User,
-    status : Status.LOADING
+    status : Status.LOADING,
+    token : null
 }
 
 const authSlice = createSlice({
@@ -40,11 +42,20 @@ const authSlice = createSlice({
         },
         setToken(state : AuthState,action : PayloadAction<string>){
             state.user.token = action.payload
+        },
+        setUserLogout(state: AuthState){
+            state.token = null
+            state.user = {
+                email : null,
+                username : null,
+                password : null,
+                token : null
+            }
         }
     }
 })
 
-export const { setUser,setStatus,resetStatus,setToken}  = authSlice.actions
+export const { setUser,setStatus,resetStatus,setToken,setUserLogout}  = authSlice.actions
 
 export default authSlice.reducer
 
