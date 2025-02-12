@@ -36,9 +36,9 @@ function App() {
     <Loader />
   ) : (
     // <DefaultLayout>
-      <Provider store={store}>
+    <Provider store={store}>
       <Routes>
-      <Route
+        <Route
           path="/auth/signin"
           element={
             <>
@@ -47,7 +47,7 @@ function App() {
             </>
           }
         />
-      <Route
+        <Route
           path="/login"
           element={
             <>
@@ -65,17 +65,15 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/"
-          element={<DefaultLayout children={undefined} />}
-        >
 
         <Route
           index
           element={
             <>
-              <PageTitle title="Yakkha Store Admin Dashboard" />
-              <ECommerce />
+              <DefaultLayout>
+                <PageTitle title="Yakkha Store Admin Dashboard" />
+                <ECommerce />
+              </DefaultLayout>
             </>
           }
         />
@@ -83,8 +81,10 @@ function App() {
           path="/calendar"
           element={
             <>
-              <PageTitle title="Calendar | Yakkha Store Admin Dashboard" />
-              <Calendar />
+              <DefaultLayout>
+                <PageTitle title="Calendar | Yakkha Store Admin Dashboard" />
+                <Calendar />
+              </DefaultLayout>
             </>
           }
         />
@@ -92,8 +92,10 @@ function App() {
           path="/profile"
           element={
             <>
-              <PageTitle title="Profile | Yakkha Store Admin Dashboard" />
-              <Profile />
+              <DefaultLayout>
+                <PageTitle title="Profile | Yakkha Store Admin Dashboard" />
+                <Profile />
+              </DefaultLayout>
             </>
           }
         />
@@ -101,8 +103,10 @@ function App() {
           path="/forms/form-elements"
           element={
             <>
-              <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
-              <FormElements />
+              <DefaultLayout>
+                <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
+                <FormElements />
+              </DefaultLayout>
             </>
           }
         />
@@ -110,8 +114,10 @@ function App() {
           path="/forms/form-layout"
           element={
             <>
-              <PageTitle title="Form Layout | Yakkha Store Admin Dashboard" />
-              <FormLayout />
+              <DefaultLayout>
+                <PageTitle title="Form Layout | Yakkha Store Admin Dashboard" />
+                <FormLayout />
+              </DefaultLayout>
             </>
           }
         />
@@ -119,8 +125,10 @@ function App() {
           path="/tables"
           element={
             <>
-              <PageTitle title="Tables | Yakkha Store Admin Dashboard" />
-              <Tables />
+              <DefaultLayout>
+                <PageTitle title="Tables | Yakkha Store Admin Dashboard" />
+                <Tables />
+              </DefaultLayout>
             </>
           }
         />
@@ -128,8 +136,10 @@ function App() {
           path="/settings"
           element={
             <>
-              <PageTitle title="Settings | Yakkha Store Admin Dashboard" />
-              <Settings />
+              <DefaultLayout>
+                <PageTitle title="Settings | Yakkha Store Admin Dashboard" />
+                <Settings />
+              </DefaultLayout>
             </>
           }
         />
@@ -137,8 +147,10 @@ function App() {
           path="/chart"
           element={
             <>
-              <PageTitle title="Basic Chart | Yakkha Store Admin Dashboard" />
-              <Chart />
+              <DefaultLayout>
+                <PageTitle title="Basic Chart | Yakkha Store Admin Dashboard" />
+                <Chart />
+              </DefaultLayout>
             </>
           }
         />
@@ -146,8 +158,10 @@ function App() {
           path="/ui/alerts"
           element={
             <>
-              <PageTitle title="Alerts | Yakkha Store Admin Dashboard" />
-              <Alerts />
+              <DefaultLayout>
+                <PageTitle title="Alerts | Yakkha Store Admin Dashboard" />
+                <Alerts />
+              </DefaultLayout>
             </>
           }
         />
@@ -155,15 +169,15 @@ function App() {
           path="/ui/buttons"
           element={
             <>
-              <PageTitle title="Buttons | Yakkha Store Admin Dashboard" />
-              <Buttons />
+              <DefaultLayout>
+                <PageTitle title="Buttons | Yakkha Store Admin Dashboard" />
+                <Buttons />
+              </DefaultLayout>
             </>
           }
         />
-        </Route>
-       
       </Routes>
-      </Provider>
+    </Provider>
     // </DefaultLayout>
   );
 }

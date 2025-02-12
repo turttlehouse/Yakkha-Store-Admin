@@ -5,6 +5,8 @@ export interface User{
     id : string;
     email : string;
     username : string;
+    createdAt : string;
+    role : string;
 }
 
 interface Category{
@@ -42,12 +44,22 @@ export interface ItemDetails{
     quantity : number;
 }
 
+export enum OrderStatus{
+    Pending = 'pending',
+    Delivered = 'delivered',
+    Ontheway = 'ontheway',
+    Cancelled = 'cancelled',
+    Preparation = 'preparation'
+}
+
 export interface OrderData{
     phoneNumber : string;
     shippingAddress : string;
     totalAmount : number;
     paymentDetails : Payment,
-    items : ItemDetails[]
+    items : ItemDetails[],
+    id : string,
+    orderStatus : OrderStatus
 }
 
 export interface InitialState{

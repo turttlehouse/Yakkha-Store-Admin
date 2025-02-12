@@ -141,6 +141,25 @@ export function deleteProduct(id : string){
     }
 }
 
+export function deleteOrder(id: string){
+    return async function deleteOrderThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete(`order/admin/${id}`)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
+        }
+        
+    }
+}
+
 
 export function singleProduct(id:string){
     return async function singleProductThunk(dispatch:AppDispatch) {
