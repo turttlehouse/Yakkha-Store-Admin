@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
-import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
@@ -18,6 +17,8 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import Login from './pages/Authentication/Login';
+import SignIn from './pages/Authentication/SignIn';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,9 +35,41 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
+    // <DefaultLayout>
       <Provider store={store}>
       <Routes>
+      <Route
+          path="/auth/signin"
+          element={
+            <>
+              <PageTitle title="Signin | Yakkha Store Admin Dashboard" />
+              <SignIn />
+            </>
+          }
+        />
+      <Route
+          path="/login"
+          element={
+            <>
+              <PageTitle title="Signin | Yakkha Store Admin Dashboard" />
+              <Login />
+            </>
+          }
+        />
+        <Route
+          path="/auth/signup"
+          element={
+            <>
+              <PageTitle title="Signup | Yakkha Store Admin Dashboard" />
+              <SignUp />
+            </>
+          }
+        />
+        <Route
+          path="/"
+          element={<DefaultLayout children={undefined} />}
+        >
+
         <Route
           index
           element={
@@ -127,27 +160,11 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Signin | Yakkha Store Admin Dashboard" />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Signup | Yakkha Store Admin Dashboard" />
-              <SignUp />
-            </>
-          }
-        />
+        </Route>
+       
       </Routes>
       </Provider>
-    </DefaultLayout>
+    // </DefaultLayout>
   );
 }
 
