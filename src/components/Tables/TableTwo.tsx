@@ -62,8 +62,15 @@ import { fetchProducts } from '../../store/dataSlice';
 //   Category: { categoryName: 'Books' }
 // },
 
+
+
+
 const TableTwo = () => {
   const dispatch = useAppDispatch();
+  
+  const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
+
+  console.log(SERVER_URL);
 
   const {products} = useAppSelector(state=>state.datas)
   // console.log(products);
@@ -78,7 +85,7 @@ const TableTwo = () => {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Top Products
+          Products
         </h4>
       </div>
 
@@ -109,6 +116,9 @@ const TableTwo = () => {
           key={id}
         >
            <div className="col-span-1 hidden items-center sm:flex">
+           <div className="h-12.5 w-15 rounded-md">
+                <img src={`${SERVER_URL}${product?.productImageUrl}`} alt="Product" />
+              </div>
             <p className="text-sm text-black dark:text-white">
               {product?.id}
             </p>

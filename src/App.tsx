@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Login from './pages/Authentication/Login';
 import SignIn from './pages/Authentication/SignIn';
+import AddProduct from './pages/Form/AddProductForm';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -105,11 +106,22 @@ function App() {
             <>
               <DefaultLayout>
                 <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
-                <FormElements />
+                <AddProduct />
               </DefaultLayout>
             </>
           }
         />
+        {/* <Route
+          path="/forms/form-elements"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
+                <FormElements />
+              </DefaultLayout>
+            </>
+          }
+        /> */}
         <Route
           path="/forms/form-layout"
           element={

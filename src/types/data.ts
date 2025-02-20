@@ -15,18 +15,18 @@ interface Category{
 }
 
 export interface Product{
-    id: string;
+    id?: string;
     productName: string;
     productDescription: string;
     productPrice: number;
     productTotalStockQty: number;
     productImageUrl:string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
     userId: string;
     categoryId: string;
-    User: User,
-    Category: Category
+    User?: User,
+    Category?: Category
 
 }
 

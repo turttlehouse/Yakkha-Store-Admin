@@ -4,6 +4,15 @@ import { InitialState, OrderData, Product, User } from "../types/data"
 import { APIAuthenticated } from "../http"
 import { AppDispatch } from "./store"
 
+export interface AddProduct{
+    productName : string,
+    productDescription : string,
+    productPrice : number,
+    productTotalStockQty : number,
+    image : null,
+    categoryId : string
+}
+
 
 
 const initialState : InitialState ={
@@ -105,11 +114,16 @@ export function fetchUsers(){
     }
 }
 
-export function addProduct(data : Product){
+export function addProduct(data : AddProduct){
     return async function addProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.post('/admin/product',data)
+            console.log(data)
+            const response = await APIAuthenticated.post('/admin/product',data,{
+                headers :{
+                    "Content-Type" : "multipart/form-data"
+                }
+            })
             if(response.status === 200){
                 dispatch(setProduct(response.data.data))
                 dispatch(setStatus(Status.SUCCESS))

@@ -352,7 +352,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          {/* <li>
+                          <li>
                             <NavLink
                               to="/forms/form-elements"
                               className={({ isActive }) =>
@@ -360,9 +360,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Form Elements
+                              {/* Form Elements */}
+                              Add Product
                             </NavLink>
-                          </li> */}
+                          </li>
                           <li>
                             <NavLink
                               to="/forms/form-layout"

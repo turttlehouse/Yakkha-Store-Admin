@@ -11,7 +11,7 @@ import { useAppSelector } from '../../store/hooks';
 const ECommerce: React.FC = () => {
    
   const { users,products,orders} = useAppSelector(state=>state.datas)
-
+  
   const counts = {
     defaultCount : 5,
     usersCount : users?.length,
@@ -41,7 +41,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total={counts?.productsCount} rate="4.35%" levelUp>
+        <CardDataStats title="Total Products" total={counts?.productsCount} rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -64,7 +64,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Product" total={counts?.defaultCount} rate="2.59%" levelUp>
+        <CardDataStats title="Total Orders" total={counts?.ordersCount} rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
