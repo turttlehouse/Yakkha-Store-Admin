@@ -9,7 +9,7 @@ export interface User{
     role : string;
 }
 
-interface Category{
+export interface Category{
     id : string;
     categoryName : string;
 }
@@ -67,5 +67,6 @@ export interface InitialState{
     users: User[],
     orders : OrderData[],
     status : Status,
-    singleProduct : Product | null
+    singleProduct : Product | null,
+    categories : Category[]
 }

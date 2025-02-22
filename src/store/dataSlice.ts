@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Status } from "../types/status"
-import { InitialState, OrderData, Product, User } from "../types/data"
+import { Category, InitialState, OrderData, Product, User } from "../types/data"
 import { APIAuthenticated } from "../http"
 import { AppDispatch } from "./store"
 
@@ -25,6 +25,10 @@ interface DeleteUser{
     userId : string
 }
 
+interface AddCategory{
+    categoryName : string
+}
+
 
 
 const initialState : InitialState ={
@@ -32,7 +36,8 @@ const initialState : InitialState ={
     products: [],
     users :[],
     status : Status.LOADING,
-    singleProduct : null
+    singleProduct : null,
+    categories : []
 }
 
 const dataSlice = createSlice({
@@ -66,13 +71,15 @@ const dataSlice = createSlice({
         setDeleteUser : (state : InitialState,action : PayloadAction<DeleteUser>)=>{
             const index = state.users.findIndex(item =>item.id === action.payload.userId)
             state.users.splice(index,1)
+        },
+        setCategory : (state : InitialState,action : PayloadAction<Category[]>)=>{
+            state.categories = action.payload
         }
-    
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -138,6 +145,26 @@ export function fetchUsers(){
     }
 }
 
+export function fetchCategories(){
+    return async function fetchCategoriesThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.get('/admin/category')
+            if(response.status === 200){
+                dispatch(setCategory(response.data.data))
+                dispatch(setStatus(Status.SUCCESS))
+            }
+            else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
+        }
+    }
+}
+
 export function addProduct(data : AddProduct){
     return async function addProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
@@ -156,6 +183,24 @@ export function addProduct(data : AddProduct){
             
         } catch (error) {
             setStatus(Status.ERROR)
+        }
+    }
+}
+
+export function addCategory(data : AddCategory){
+    return async function addCategoryThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.post('admin/category',data)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
         }
     }
 }

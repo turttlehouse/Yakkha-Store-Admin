@@ -20,6 +20,7 @@ import store from './store/store';
 import Login from './pages/Authentication/Login';
 import SignIn from './pages/Authentication/SignIn';
 import AddProduct from './pages/Form/AddProductForm';
+import AddCategoryForm from './pages/Form/AddCategoryForm';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -101,12 +102,23 @@ function App() {
           }
         />
         <Route
-          path="/forms/form-elements"
+          path="/forms/form-addProduct"
           element={
             <>
               <DefaultLayout>
                 <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
                 <AddProduct />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/forms/form-addCategory"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="Form Elements | Yakkha Store Admin Dashboard" />
+                <AddCategoryForm />
               </DefaultLayout>
             </>
           }
