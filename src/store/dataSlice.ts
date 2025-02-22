@@ -29,6 +29,9 @@ interface AddCategory{
     categoryName : string
 }
 
+interface DeleteCategory{
+    categoryId : string
+}
 
 
 const initialState : InitialState ={
@@ -74,12 +77,16 @@ const dataSlice = createSlice({
         },
         setCategory : (state : InitialState,action : PayloadAction<Category[]>)=>{
             state.categories = action.payload
+        },
+        setDeleteCategory : (state : InitialState,action : PayloadAction<DeleteCategory>)=>{
+            const index = state.categories.findIndex(item => item.id === action.payload.categoryId)
+            state.categories.splice(index,1)
         }
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -284,5 +291,23 @@ export function deleteUser(id:string){
 }
 
 
+export function deleteCategory(id:string){
+    return async function deleteCategoryThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete(`admin/category/${id}`)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setDeleteCategory({categoryId : id}))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
+        }
+    }
+}
 
 
