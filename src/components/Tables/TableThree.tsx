@@ -1,5 +1,5 @@
 import React from 'react';
-import { deleteOrder, fetchOrders } from '../../store/dataSlice';
+import { deleteOrder, fetchOrders, setDeleteOrder } from '../../store/dataSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 // import { Package } from '../../types/package';
 import { OrderStatus } from '../../types/data';
@@ -76,6 +76,7 @@ const TableThree = () => {
 
   const handleDelete = (id: string) => {
     dispatch(deleteOrder(id));
+    dispatch(setDeleteOrder({ orderId: id }));
   };
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">

@@ -13,6 +13,18 @@ export interface AddProduct{
     categoryId : string
 }
 
+interface DeleteProduct{
+    productId : string
+}
+
+interface DeleteOrder{
+    orderId : string
+}
+
+interface DeleteUser{
+    userId : string
+}
+
 
 
 const initialState : InitialState ={
@@ -42,13 +54,25 @@ const dataSlice = createSlice({
         },
         setSingleProduct : (state : InitialState,action : PayloadAction<Product>)=>{
             state.singleProduct = action.payload
+        },
+        setDeleteProduct : (state : InitialState,action : PayloadAction<DeleteProduct>)=>{
+            const index = state.products.findIndex(item =>item.id = action.payload.productId)
+            state.products.splice(index,1)
+        },
+        setDeleteOrder : (state : InitialState,action : PayloadAction<DeleteOrder>)=>{
+            const index = state.orders.findIndex(item => item.id = action.payload.orderId)
+            state.orders.splice(index,1)
+        },
+        setDeleteUser : (state : InitialState,action : PayloadAction<DeleteUser>)=>{
+            const index = state.users.findIndex(item =>item.id === action.payload.userId)
+            state.users.splice(index,1)
         }
     
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -118,7 +142,6 @@ export function addProduct(data : AddProduct){
     return async function addProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            console.log(data)
             const response = await APIAuthenticated.post('/admin/product',data,{
                 headers :{
                     "Content-Type" : "multipart/form-data"
@@ -192,6 +215,26 @@ export function singleProduct(id:string){
             
         }
         
+    }
+}
+
+export function deleteUser(id:string){
+    return async function deleteUserThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete(`users/${id}`)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setDeleteUser({userId : id}))
+                
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+            
+        }
     }
 }
 
