@@ -37,6 +37,7 @@ export enum PaymentMethod{
 
 interface Payment{
     paymentMethod : PaymentMethod;
+    paymentStatus : string;
 }
 
 export interface ItemDetails{
@@ -62,11 +63,47 @@ export interface OrderData{
     orderStatus : OrderStatus
 }
 
+export interface SingleOrder{
+    id : string;
+    quantity : number;
+    orderId : string;
+    createdAt : string;
+    // Product : Product[];
+    // Order : Payment;
+    Product : {
+        id : string;
+        productName : string;
+        productPrice : number;
+        productTotalStockQty : number;
+        productImageUrl : string;
+        categoryId : string;
+        Category : {
+            categoryName? : string;
+        }
+    };
+    Order : {
+        id : string;
+        phoneNumber : string;
+        shippingAddress : string;
+        totalAmount : number;
+        orderStatus : OrderStatus;
+        Payment : {
+            paymentMethod : PaymentMethod;
+            paymentStatus : string;
+        }
+        User :{
+            username : string;
+            email : string;
+        }
+    };
+}
+
 export interface InitialState{
     products: Product[],
     users: User[],
     orders : OrderData[],
     status : Status,
     singleProduct : Product | null,
-    categories : Category[]
+    categories : Category[],
+    singleOrder : SingleOrder[]
 }

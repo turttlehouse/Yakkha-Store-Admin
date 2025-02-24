@@ -3,6 +3,7 @@ import { deleteOrder, fetchOrders, setDeleteOrder } from '../../store/dataSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 // import { Package } from '../../types/package';
 import { OrderStatus } from '../../types/data';
+import { Link } from 'react-router-dom';
 
 // const packageData: Package[] = [
 //   {
@@ -109,9 +110,11 @@ const TableThree = () => {
               orders?.map((order, id) => (
                 <tr key={id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                   <Link to = {`/order/${order?.id}`}>
                     <h5 className="font-medium text-black dark:text-white">
                       {order?.id}
                     </h5>
+                    </Link>
                     <p className="text-sm">Rs{order?.totalAmount}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

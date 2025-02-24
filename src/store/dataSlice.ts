@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Status } from "../types/status"
-import { Category, InitialState, OrderData, Product, User } from "../types/data"
+import { Category, InitialState, OrderData, Product, SingleOrder, User } from "../types/data"
 import { APIAuthenticated } from "../http"
 import { AppDispatch } from "./store"
 
@@ -40,7 +40,8 @@ const initialState : InitialState ={
     users :[],
     status : Status.LOADING,
     singleProduct : null,
-    categories : []
+    categories : [],
+    singleOrder : []
 }
 
 const dataSlice = createSlice({
@@ -81,12 +82,15 @@ const dataSlice = createSlice({
         setDeleteCategory : (state : InitialState,action : PayloadAction<DeleteCategory>)=>{
             const index = state.categories.findIndex(item => item.id === action.payload.categoryId)
             state.categories.splice(index,1)
+        },
+        setSingleOrder:(state : InitialState,action : PayloadAction<SingleOrder[]>)=>{
+            state.singleOrder = action.payload
         }
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory,setSingleOrder} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -310,4 +314,22 @@ export function deleteCategory(id:string){
     }
 }
 
+export function singleOrder(id:string){
+    return async function singleOrderThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.get(`order/customer/${id}`);
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setSingleOrder(response.data.data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
+        }
+    }
+}
 

@@ -21,6 +21,7 @@ import Login from './pages/Authentication/Login';
 import SignIn from './pages/Authentication/SignIn';
 import AddProduct from './pages/Form/AddProductForm';
 import AddCategoryForm from './pages/Form/AddCategoryForm';
+import SingleOrder from './pages/Order/SingleOrder';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -97,6 +98,17 @@ function App() {
               <DefaultLayout>
                 <PageTitle title="Profile | Yakkha Store Admin Dashboard" />
                 <Profile />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <>
+              <DefaultLayout>
+                <PageTitle title="Profile | Yakkha Store Admin Dashboard" />
+                <SingleOrder/>
               </DefaultLayout>
             </>
           }
