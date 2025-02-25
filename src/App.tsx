@@ -22,6 +22,10 @@ import SignIn from './pages/Authentication/SignIn';
 import AddProduct from './pages/Form/AddProductForm';
 import AddCategoryForm from './pages/Form/AddCategoryForm';
 import SingleOrder from './pages/Order/SingleOrder';
+import { io } from 'socket.io-client';
+
+
+export const socket = io("http://localhost:5000")
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
