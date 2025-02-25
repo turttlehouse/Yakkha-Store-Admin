@@ -1,15 +1,8 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { singleOrder } from '../../store/dataSlice';
+import { handleOrderStatusById, singleOrder } from '../../store/dataSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-
-const SingleOrder : React.FC = () => {
-    const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
-
-    const {id} = useParams<{id : string}>();
-    // console.log(id)
-
-    const {singleOrder : orderDetails} = useAppSelector((state)=>state.datas);
+import { OrderStatus } from '../../types/data';
 
 //single product ordered
 
@@ -39,14 +32,13 @@ const SingleOrder : React.FC = () => {
     //   ]
 
 // 2 product ordered
-
-//      [
+// [
 //     {
-//       id: '4f03472c-95b7-4685-9ed4-b7e83b102343',
-//       quantity: 4,
-//       createdAt: '2025-02-24T02:28:59.000Z',
-//       updatedAt: '2025-02-24T02:28:59.000Z',
-//       orderId: '59148134-d582-483b-84bd-0c0946d32ab9',
+//       id: 'fdc97e50-d30c-4015-945e-55f75799b9c1',
+//       quantity: 1,
+//       createdAt: '2025-02-24T02:58:13.000Z',
+//       updatedAt: '2025-02-24T02:58:13.000Z',
+//       orderId: '269f8b24-d01e-4386-b04c-4c66d9941513',
 //       productId: '95cd25d4-f1b2-4a0e-820c-ce119b8927ed',
 //       Product: {
 //         id: '95cd25d4-f1b2-4a0e-820c-ce119b8927ed',
@@ -62,25 +54,25 @@ const SingleOrder : React.FC = () => {
 //         Category: { categoryName: 'Clothing' }
 //       },
 //       Order: {
-//         id: '59148134-d582-483b-84bd-0c0946d32ab9',
-//         phoneNumber: '9812345678',
-//         shippingAddress: 'itahari',
-//         totalAmount: 5,
-//         orderStatus: 'pending',
-//         createdAt: '2025-02-24T02:28:59.000Z',
-//         updatedAt: '2025-02-24T02:28:59.000Z',
-//         paymentId: '520d7256-2590-4bae-bd0d-9e94b861f6db',
-//         userId: 'dc067c0f-366a-4717-89b2-e0acc279c30f',
+//         id: '269f8b24-d01e-4386-b04c-4c66d9941513',
+//         phoneNumber: '9712345678',
+//         shippingAddress: 'pokhara',
+//         totalAmount: 1700,
+//         orderStatus: 'preparation',
+//         createdAt: '2025-02-24T02:58:13.000Z',
+//         updatedAt: '2025-02-25T02:41:23.000Z',
+//         paymentId: '2b04629b-0b95-4889-9cd5-52c708f51b53',
+//         userId: '6bacdcb8-6a22-4acb-81bd-c3a6c1b504d4',
 //         Payment: { paymentMethod: 'cod', paymentStatus: 'unpaid' },
-//         User: { username: 'hari', email: 'hari@gmail.com' }
+//         User: { username: 'sabin', email: 'sabin@gmail.com' }
 //       }
 //     },
 //     {
-//       id: '81244176-4734-4023-b587-5dcf074d73a9',
-//       quantity: 2,
-//       createdAt: '2025-02-24T02:28:59.000Z',
-//       updatedAt: '2025-02-24T02:28:59.000Z',
-//       orderId: '59148134-d582-483b-84bd-0c0946d32ab9',
+//       id: 'fe33afd1-a56a-484e-9124-5b1796f6f6c7',
+//       quantity: 1,
+//       createdAt: '2025-02-24T02:58:13.000Z',
+//       updatedAt: '2025-02-24T02:58:13.000Z',
+//       orderId: '269f8b24-d01e-4386-b04c-4c66d9941513',
 //       productId: '62768b87-7bca-4561-8672-fe3be2bff7be',
 //       Product: {
 //         id: '62768b87-7bca-4561-8672-fe3be2bff7be',
@@ -96,23 +88,30 @@ const SingleOrder : React.FC = () => {
 //         Category: { categoryName: 'Clothing' }
 //       },
 //       Order: {
-//         id: '59148134-d582-483b-84bd-0c0946d32ab9',
-//         phoneNumber: '9812345678',
-//         shippingAddress: 'itahari',
-//         totalAmount: 5,
-//         orderStatus: 'pending',
-//         createdAt: '2025-02-24T02:28:59.000Z',
-//         updatedAt: '2025-02-24T02:28:59.000Z',
-//         paymentId: '520d7256-2590-4bae-bd0d-9e94b861f6db',
-//         userId: 'dc067c0f-366a-4717-89b2-e0acc279c30f',
+//         id: '269f8b24-d01e-4386-b04c-4c66d9941513',
+//         phoneNumber: '9712345678',
+//         shippingAddress: 'pokhara',
+//         totalAmount: 1700,
+//         orderStatus: 'preparation',
+//         createdAt: '2025-02-24T02:58:13.000Z',
+//         updatedAt: '2025-02-25T02:41:23.000Z',
+//         paymentId: '2b04629b-0b95-4889-9cd5-52c708f51b53',
+//         userId: '6bacdcb8-6a22-4acb-81bd-c3a6c1b504d4',
 //         Payment: { paymentMethod: 'cod', paymentStatus: 'unpaid' },
-//         User: { username: 'hari', email: 'hari@gmail.com' }
+//         User: { username: 'sabin', email: 'sabin@gmail.com' }
 //       }
 //     }
 //   ]
     
     // console.log(orderDetails)
 
+const SingleOrder : React.FC = () => {
+    const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
+
+    const {id} = useParams<{id : string}>();
+
+    const {singleOrder : orderDetails} = useAppSelector((state)=>state.datas);
+    // console.log(orderDetails)
     const dispatch = useAppDispatch();
 
     React.useEffect(()=>{
@@ -122,6 +121,29 @@ const SingleOrder : React.FC = () => {
         }
 
     },[id])
+
+    // const [orderStatus, setOrderStatus] = React.useState(orderDetails[0]?.Order?.orderStatus as string);
+
+
+    const handleOrderStatusChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+        // console.log(e.target.value);
+        const newOrderStatus = e.target.value as OrderStatus
+        // setOrderStatus(newOrderStatus)
+        // setOrderStatus(e.target.value);
+
+        if(id){
+            // console.log(id);
+
+            // This way, you are passing the new status directly from the event target, 
+            // ensuring it is the most up-to-date value.
+            dispatch(handleOrderStatusById(id,newOrderStatus))
+            // The issue is that the orderStatus state is not updated immediately after 
+            // calling setOrderStatus. React state updates are asynchronous, so the orderStatus
+            //  value inside handleOrderStatusChange might not reflect the latest change when 
+            // you call handleOrderStatusById.
+            // dispatch(handleOrderStatusById(id,status:orderStatus))
+        }
+    }
 
 
   return (
@@ -309,7 +331,7 @@ const SingleOrder : React.FC = () => {
                                    
                                     <label htmlFor="countries" className="block mb-2 p-2 rounded bg-blue-700 text-white text-sm font-medium  dark:text-white">Update Order Status</label>
                                    
-                                    <select  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select onChange={handleOrderStatusChange}  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         {/* <option value={filteredOrder?.orderStatus}>{filteredOrder?.orderStatus}</option> */}
                                         <option value="pending">Pending</option>
                                         <option value="delivered">Delivered</option>

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Status } from "../types/status"
-import { Category, InitialState, OrderData, Product, SingleOrder, User } from "../types/data"
+import { Category, InitialState, OrderData, OrderStatus, Product, SingleOrder, User } from "../types/data"
 import { APIAuthenticated } from "../http"
 import { AppDispatch } from "./store"
 
@@ -85,12 +85,22 @@ const dataSlice = createSlice({
         },
         setSingleOrder:(state : InitialState,action : PayloadAction<SingleOrder[]>)=>{
             state.singleOrder = action.payload
+        },
+        updateOrderStatusById(state : InitialState,action : PayloadAction<{orderId:string,status:OrderStatus}>){
+            const index = state.singleOrder.findIndex((item)=>item.Order.id === action.payload.orderId)
+            //index vetena vane -1 return garxa
+            if(index !== -1){
+                // console.log(action.payload.status)
+                state.singleOrder[index].Order.orderStatus = action.payload.status
+
+            }
+
         }
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory,setSingleOrder} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory,setSingleOrder,updateOrderStatusById} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -333,3 +343,22 @@ export function singleOrder(id:string){
     }
 }
 
+export function handleOrderStatusById(id:string,status:OrderStatus){
+    return async function handleOrderStatusByIdThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.patch(`order/admin/${id}`,{orderStatus:status});
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(updateOrderStatusById({orderId : id,status}))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)
+            
+        }
+        
+    }
+}
