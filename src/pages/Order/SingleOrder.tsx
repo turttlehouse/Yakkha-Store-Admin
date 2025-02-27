@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { handleOrderStatusById, singleOrder } from '../../store/dataSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { OrderStatus } from '../../types/data';
+import { socket } from '../../App';
 
 //single product ordered
 
@@ -116,7 +117,6 @@ const SingleOrder : React.FC = () => {
 
     React.useEffect(()=>{
         if(id){
-            
             dispatch(singleOrder(id));
         }
 
@@ -133,6 +133,12 @@ const SingleOrder : React.FC = () => {
 
         if(id){
             // console.log(id);
+
+            socket.emit('updatedOrderStatus',{
+                status : e.target.value,
+                orderId : id,
+                userId : orderDetails[0]?.Order?.userId
+            })
 
             // This way, you are passing the new status directly from the event target, 
             // ensuring it is the most up-to-date value.

@@ -24,8 +24,13 @@ import AddCategoryForm from './pages/Form/AddCategoryForm';
 import SingleOrder from './pages/Order/SingleOrder';
 import { io } from 'socket.io-client';
 
+const serverUrl = import.meta.env.VITE_APP_SERVER_URL
 
-export const socket = io("http://localhost:5000")
+export const socket = io(serverUrl,{
+  auth :{
+    token : localStorage.getItem('token')
+  }
+})
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
