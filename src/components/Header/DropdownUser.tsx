@@ -1,19 +1,35 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 // import UserOne from '../../images/user/user-01.jpg';
 import UserOne from '../../images/user/user-01.jpg';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch} from '../../store/hooks';
 import { setUserLogout } from '../../store/authSlice';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dispatch  = useAppDispatch();
+  // const {user} = useAppSelector(state=>state.auth)
 
-  const handleLogout = ()=>{
+  // console.log(user)
+  
+  const navigate = useNavigate()
+
+  const handleLogout = async()=>{
     localStorage.clear()
-    dispatch(setUserLogout())
+    await dispatch(setUserLogout())
+    navigate('/login')
   }
+
+  // { email: null, username: null, password: null, token: null }
+  // React.useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if( !!token || !!user){
+  //     navigate('/login')
+
+  //   }
+  // }
+  // , [user,user.token]);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
