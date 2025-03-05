@@ -112,7 +112,7 @@ const SingleOrder : React.FC = () => {
     const {id} = useParams<{id : string}>();
 
     const {singleOrder : orderDetails} = useAppSelector((state)=>state.datas);
-    console.log(orderDetails)
+    // console.log(orderDetails)
     const dispatch = useAppDispatch();
 
     React.useEffect(()=>{
@@ -155,9 +155,23 @@ const SingleOrder : React.FC = () => {
     // console.log(statePaymentStatus);
 
     const handlePaymentChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
-        console.log(e.target.value);
+        // console.log(e.target.value);
         // setStatePaymentStatus(e.target.value);
         if(id){
+
+            const data = {
+                status : e.target.value,
+                orderId : id,
+                userId : orderDetails[0]?.Order?.userId
+            }
+
+            socket.emit('updatedPaymentStatus',data)
+
+            // socket.emit('updatedPaymentStatus',{
+            //     status : e.target.value,
+            //     orderId : id,
+            //     userId : orderDetails[0]?.Order?.userId
+            // })
 
             dispatch(handlePaymentStatusById(id,e.target.value))
         }
