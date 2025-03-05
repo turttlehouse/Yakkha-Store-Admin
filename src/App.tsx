@@ -24,11 +24,11 @@ import AddCategoryForm from './pages/Form/AddCategoryForm';
 import SingleOrder from './pages/Order/SingleOrder';
 import { io } from 'socket.io-client';
 
-const serverUrl = import.meta.env.VITE_APP_SERVER_URL
+const serverUrl = (import.meta as any).env.VITE_APP_SERVER_URL
 
 export const socket = io(serverUrl,{
   auth :{
-    token : localStorage.getItem('token')
+    token : localStorage.getItem('admin_auth_token')
   }
 })
 

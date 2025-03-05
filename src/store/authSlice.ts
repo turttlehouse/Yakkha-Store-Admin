@@ -68,7 +68,19 @@ export function login(data : LoginData){
                 const { data} = response.data
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setToken(data))
-                localStorage.setItem('token',data)
+                // console.log('hello')
+                const storageKey = (import.meta as any).env.VITE_ADMIN_STORAGE_KEY;
+                // console.log(storageKey)
+                // const storageKey = import.meta.env.VITE_CLIENT_STORAGE_KEY;
+
+                if(storageKey){
+
+                    localStorage.setItem(storageKey,data)
+                }else{
+                    alert('storageKey not found')
+                }
+                
+                // localStorage.setItem('token',data)
             }else{
                 dispatch(setStatus(Status.ERROR))
             }

@@ -16,7 +16,8 @@ const DropdownUser = () => {
   const navigate = useNavigate()
 
   const handleLogout = async()=>{
-    localStorage.clear()
+    // localStorage.clear()
+    localStorage.removeItem((import.meta as any).env.VITE_ADMIN_STORAGE_KEY)
     await dispatch(setUserLogout())
     navigate('/login')
   }

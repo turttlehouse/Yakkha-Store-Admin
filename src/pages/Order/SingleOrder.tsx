@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { handleOrderStatusById, singleOrder } from '../../store/dataSlice';
+import { handleOrderStatusById, handlePaymentStatusById, singleOrder } from '../../store/dataSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { OrderStatus } from '../../types/data';
 import { socket } from '../../App';
@@ -107,12 +107,12 @@ import { socket } from '../../App';
     // console.log(orderDetails)
 
 const SingleOrder : React.FC = () => {
-    const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
+    const SERVER_URL = (import.meta as any).env.VITE_APP_SERVER_URL;
 
     const {id} = useParams<{id : string}>();
 
     const {singleOrder : orderDetails} = useAppSelector((state)=>state.datas);
-    // console.log(orderDetails)
+    console.log(orderDetails)
     const dispatch = useAppDispatch();
 
     React.useEffect(()=>{
@@ -151,6 +151,25 @@ const SingleOrder : React.FC = () => {
         }
     }
 
+    // const [statePaymentStatus, setStatePaymentStatus] = React.useState(orderDetails[0]?.Order?.Payment?.paymentStatus as string);
+    // console.log(statePaymentStatus);
+
+    const handlePaymentChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+        console.log(e.target.value);
+        // setStatePaymentStatus(e.target.value);
+        if(id){
+
+            dispatch(handlePaymentStatusById(id,e.target.value))
+        }
+
+    }
+
+    // React.useEffect(()=>{
+    //     if(orderDetails && orderDetails.length > 0){
+    //         setStatePaymentStatus(orderDetails[0]?.Order?.Payment?.paymentStatus as string);
+    //     }
+
+    // },[orderDetails])
 
   return (
     <div className="py-[100px] dark:bg-gray-200 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -175,7 +194,7 @@ const SingleOrder : React.FC = () => {
 
                 {
                     orderDetails && orderDetails.length > 0 && orderDetails.map((order)=>{
-                        console.log(order);
+                        // console.log(order);
 
 
 //                         {
@@ -348,7 +367,9 @@ const SingleOrder : React.FC = () => {
 
                                     <label htmlFor="countries" className="block mb-2 p-2 rounded bg-blue-700 text-white text-sm font-medium  dark:text-white">Update Payment Status</label>
                                    
-                                    <select  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <select
+                                    //  value={statePaymentStatus}
+                                     onChange={handlePaymentChange}  id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         
                                         <option value="pending">Pending</option>
                                         <option value="paid">Paid</option>

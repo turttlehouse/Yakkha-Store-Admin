@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const APIAuthenticated = axios.create({
-    baseURL: 'http://localhost:5000/',
+    //using type assertion as any to access the env variables
+    baseURL: (import.meta as any).env.VITE_APP_SERVER_URL,
     headers : {
         'Content-Type': 'application/json',
         'Accept' : 'application/json',
-        'Authorization' : `${localStorage.getItem('token')}`
+        // 'Authorization' : `${localStorage.getItem((import.meta as any).env.ADMIN_STORAGE_KEY)}`
+        'Authorization' : `${localStorage.getItem('admin_auth_token')}`
     }
 })
 
@@ -24,7 +26,7 @@ const APIAuthenticated = axios.create({
 //   );
 
 const API = axios.create({
-    baseURL: 'http://localhost:5000/',
+    baseURL:(import.meta as any).env.VITE_APP_SERVER_URL,
     headers : {
         'Content-Type': 'application/json',
         'Accept' : 'application/json'

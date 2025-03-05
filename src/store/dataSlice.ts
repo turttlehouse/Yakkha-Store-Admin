@@ -86,7 +86,7 @@ const dataSlice = createSlice({
         setSingleOrder:(state : InitialState,action : PayloadAction<SingleOrder[]>)=>{
             state.singleOrder = action.payload
         },
-        updateOrderStatusById(state : InitialState,action : PayloadAction<{orderId:string,status:OrderStatus}>){
+        updateOrderStatusInStore(state : InitialState,action : PayloadAction<{orderId:string,status:OrderStatus}>){
             const index = state.singleOrder.findIndex((item)=>item.Order.id === action.payload.orderId)
             //index vetena vane -1 return garxa
             if(index !== -1){
@@ -95,12 +95,18 @@ const dataSlice = createSlice({
 
             }
 
+        },
+        updatePaymentStatusInStore(state : InitialState,action : PayloadAction<{orderId : string,status : string}>){
+            const index = state.singleOrder.findIndex(item=>item.Order.id === action.payload.orderId)
+            if(index !== -1){
+                state.singleOrder[index].Order.Payment.paymentStatus = action.payload.status
+            }
         }
 
     }
 })
 
-export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory,setSingleOrder,updateOrderStatusById} = dataSlice.actions
+export const { setStatus,setProduct,setOrders,setUser,setSingleProduct,setDeleteProduct,setDeleteOrder,setDeleteUser,setCategory,setDeleteCategory,setSingleOrder,updateOrderStatusInStore,updatePaymentStatusInStore} = dataSlice.actions
 
 export default dataSlice.reducer
 
@@ -350,7 +356,7 @@ export function handleOrderStatusById(id:string,status:OrderStatus){
             const response = await APIAuthenticated.patch(`order/admin/${id}`,{orderStatus:status});
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-                dispatch(updateOrderStatusById({orderId : id,status}))
+                dispatch(updateOrderStatusInStore({orderId : id,status}))
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -360,5 +366,23 @@ export function handleOrderStatusById(id:string,status:OrderStatus){
             
         }
         
+    }
+}
+
+export function handlePaymentStatusById(id:string,status : string){
+    return async function handlePaymentStatusByIdThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.patch( `order/admin/payment/${id}`,{paymentStatus:status})
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(updatePaymentStatusInStore({orderId : id,status}))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+            
+        } catch (error) {
+            setStatus(Status.ERROR)            
+        }
     }
 }
